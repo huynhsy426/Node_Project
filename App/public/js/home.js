@@ -15,6 +15,7 @@ const errDrunkness = document.querySelector('.errDrunkness')
 
 const btnEdit = document.querySelectorAll('.btn-edit')
 const btnDelete = document.querySelector('.btn-delete')
+const btnDeleteAll = document.querySelectorAll('.btn-delete')
 
 const formUpdate = document.querySelector('.formUpdate')
 const drinkIDUpdate = document.querySelector('.drinkIdUpdate')
@@ -26,6 +27,9 @@ const errNameUpdate = document.querySelector('.errNameUpdate')
 const errDrunknessUpdate = document.querySelector('.errDrunknessUpdate')
 
 const closeA = document.querySelector('.close')
+
+const checkboxSelected = document.querySelectorAll('.checkboxSelected')
+const btnDeleteSeclect = document.querySelector('.btnDeleteSeclect')
 
 // Validate input elements not null
 function validateInput(inputElement, errorElement, errorMessage, e) {
@@ -108,7 +112,7 @@ updateBtn.onclick = (e) => {
     }
 }
 
-
+// close buton when Update
 closeA.onclick = (e) => {
     e.preventDefault();
     document.getElementById('popup1').style.visibility = 'hidden'
@@ -123,3 +127,46 @@ btnDelete.onclick = (e) => {
         console.log("aaaaa");
     }
 }
+
+
+function myfunction() {
+    console.log("checkbox");
+    console.log("length", checkboxSelected.length);
+    ArraySelected = new Array();
+
+    for (let index = 0; index < checkboxSelected.length; index++) {
+        const element = checkboxSelected[index];
+        if (element.checked == true) {
+            console.log(element);
+            console.log(element.value)
+            ArraySelected.push(element.value)
+
+            // Hidden button
+            hiddenBtnDelectSelect(false);
+
+            btnDeleteSeclect.onclick = () => {
+                console.log("delete selected", ArraySelected);
+                console.log('/DeleteSelect/?list=' + ArraySelected.join(','))
+                let confirmDelete = confirm("Confirm Delete?")
+                if (confirmDelete == false) {
+                    e.preventDefault()
+                    console.log("aaaaa");
+                } else {
+                    const hrefUrl = window.location.href + '/DeleteSelect/?list=' + ArraySelected.join(',');
+                    location.href = hrefUrl;
+                }
+
+            };
+        }
+    }
+}
+
+function hiddenBtnDelectSelect(isHidden) {
+    btnDeleteSeclect.hidden = isHidden;
+
+    for (let index = 0; index < btnEdit.length; index++) {
+        btnEdit[index].hidden = !isHidden;
+        btnDeleteAll[index].hidden = !isHidden;
+    }
+}
+

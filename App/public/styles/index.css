@@ -133,3 +133,12 @@ h1 {
         width: 70%;
     }
 }
+
+
+.btnDeleteSeclect {
+    margin-top: 10px;
+    color: white;
+    border-radius: 4px;
+    background-color: red;
+    padding: auto;
+}

@@ -59,7 +59,6 @@ homeModel.deleteDrink = (id, results) => {
     connect.query(`delete FROM drinks WHERE drinkID = ?`,
         id,
         (err, result) => {
-            console.log("dekdasdsadas")
             if (err) {
                 console.log("error: ", err);
                 return results(err, null);
@@ -86,6 +85,20 @@ homeModel.updateDrink = (newHome, result) => {
             console.log("created home: ", { id: res.insertId, ...newHome });
             result(null, { id: res.insertId, ...newHome });
         });
+};
+
+
+// Delete by select
+homeModel.DeleteSelect = (listSelect, results) => {
+    const query = 'DELETE FROM Drinks WHERE drinkID IN (?)';
+    connect.query(query, [listSelect], (err, result) => {
+        if (err) {
+            console.error('Error:', err);
+            return results(err, null);
+        }
+        console.log('Deleted rows:', result.affectedRows);
+        return results(null, result);
+    });
 };
 
 module.exports = homeModel

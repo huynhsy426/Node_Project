@@ -23,7 +23,9 @@ const getAll = (req, res) => {
                 ...responseData,
                 drinks: results,
                 tagline: tagline,
-                errorMessage: req.query.errorMessage
+                errorMessage: req.query.errorMessage,
+                deleteMessage: req.query.deleteMessage,
+                updateMessage: req.query.updateMessage
             });
         } else {
             res.redirect('/login');
@@ -90,7 +92,7 @@ const deleteDrink = (req, res) => {
                 return res.redirect('/home?errorMessage=' + err.message);
             }
             // console.log(result);
-            return res.redirect('/home');
+            return res.redirect('/home?deleteMessage=' + "Delete successfully");
         }
     )
 };
@@ -114,7 +116,28 @@ const UpdateDrink = (req, res) => {
                 return res.redirect('/home?errorMessage=' + err.message);
             }
             console.log(result);
-            return res.redirect('/home');
+            return res.redirect('/home?updateMessage=' + "Update successful");
+        }
+    )
+};
+
+
+const DeleteSelect = (req, res) => {
+    console.log(req.query, "query")
+    console.log(req.query.list)
+    console.log(Array.isArray(req.query.list.split(",")))
+    console.log(req.query.list.split(","))
+
+    const listSelect = req.query.list.split(",")
+
+    HomeModel.DeleteSelect(
+        listSelect,
+        (err, result) => {
+            if (err) {
+                return res.redirect('/home?errorMessage=' + err.message);
+            }
+            console.log(result);
+            return res.redirect('/home?deleteMessage=' + "Delete successfully");
         }
     )
 };
@@ -125,5 +148,6 @@ module.exports = {
     createDrink,
     searchDrinks,
     deleteDrink,
-    UpdateDrink
+    UpdateDrink,
+    DeleteSelect
 }
