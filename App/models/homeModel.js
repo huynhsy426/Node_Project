@@ -89,7 +89,7 @@ homeModel.updateDrink = (newHome, result) => {
 
 
 // Delete by select
-homeModel.DeleteSelect = (listSelect, results) => {
+homeModel.deleteSelect = (listSelect, results) => {
     const query = 'DELETE FROM Drinks WHERE drinkID IN (?)';
     connect.query(query, [listSelect], (err, result) => {
         if (err) {

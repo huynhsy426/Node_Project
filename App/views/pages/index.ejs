@@ -22,7 +22,7 @@
             <h1>This is great</h1>
             <p>Welcome to templating using EJS</p>
             <h3 id="errorMessage" style="color: red">
-                <%= errorMessage%>
+                <%= message.error%>
             </h3>
             <p>
                 <%= tagline %>
@@ -62,45 +62,52 @@
                 </form>
             </div>
 
-            <% if (typeof deleteMessage !=='undefined' ) {%>
+            <% if (typeof message.delete !=='undefined' ) {%>
                 <h2 style="color: blue; text-align: center;">Delete success</h2>
                 <% }%>
 
-                    <% if (typeof updateMessage !=='undefined' ) {%>
+                    <% if (typeof message.update !=='undefined' ) {%>
                         <h2 style="color: green; text-align: center;">Update success</h2>
                         <% }%>
 
-                            <h2 class="drinks">Drinks</h2>
+                            <% if (typeof message.isEmpty !=='undefined' ) {%>
+                                <h2 style="color: gray; text-align: center;">
+                                    <%= message.isEmpty%>
+                                </h2>
+                                <%}%>
 
-                            <% drinks.forEach(function(drink) { %>
+                                    <h2 class="drinks">Drinks</h2>
 
-                                <div class="list-drinks-content">
-                                    <div class="drink-child">
-                                        <div>
-                                            <input type="checkbox" id="<%= drink.drinkID%>" name="<%= drink.drinkID%>"
-                                                value="<%= drink.drinkID%>" class="checkboxSelected"
-                                                onclick="myfunction()">
-                                            <label for="<%= drink.drinkID%>" name="<%= drink.drinkID%>" class="infor">
-                                                <%= drink.name %> - <%= drink.drunkness %>
-                                            </label>
+                                    <% drinks.forEach(function(drink) { %>
+
+                                        <div class="list-drinks-content">
+                                            <div class="drink-child">
+                                                <div>
+                                                    <input type="checkbox" id="<%= drink.drinkID%>"
+                                                        name="<%= drink.drinkID%>" value="<%= drink.drinkID%>"
+                                                        class="checkboxSelected" onclick="myfunction()">
+                                                    <label for="<%= drink.drinkID%>" name="<%= drink.drinkID%>"
+                                                        class="infor">
+                                                        <%= drink.name %> - <%= drink.drunkness %>
+                                                    </label>
+                                                </div>
+
+                                                <div class="btn-function">
+                                                    <button type="submit" class="btn-edit"
+                                                        onclick="sendDataToPopUp('<%= drink.drinkID %>','<%= drink.name %>','<%= drink.drunkness %>')">Edit</button>
+                                                    <!-- <button type="button" class="btn-edit">Edit</button> -->
+                                                    <a href="/home/delete/<%=drink.drinkID %>">
+                                                        <button type="button" class="btn-delete">Delete</button>
+                                                    </a>
+
+
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <div class="btn-function">
-                                            <button type="submit" class="btn-edit"
-                                                onclick="sendDataToPopUp('<%= drink.drinkID %>','<%= drink.name %>','<%= drink.drunkness %>')">Edit</button>
-                                            <!-- <button type="button" class="btn-edit">Edit</button> -->
-                                            <a href="/home/delete/<%=drink.drinkID %>">
-                                                <button type="button" class="btn-delete">Delete</button>
-                                            </a>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <% }); %>
-                                    <div style="display: flex; justify-content: center; align-items: center;">
-                                        <button type="button" class="btnDeleteSeclect" hidden>Delete</button>
-                                    </div>
+                                        <% }); %>
+                                            <div style="display: flex; justify-content: center; align-items: center;">
+                                                <button type="button" class="btnDeleteSeclect" hidden>Delete</button>
+                                            </div>
         </div>
 
         <div id="popup1" class="overlay">

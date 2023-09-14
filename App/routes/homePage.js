@@ -1,7 +1,6 @@
 const express = require('express');
-const connection = require('../models/connection');
 const router = express.Router();
-const { getAll, searchDrinks, createDrink, deleteDrink, UpdateDrink, DeleteSelect } = require('../controller/homeController');
+const { getAll, searchDrinks, createDrink, deleteDrink, updateDrink, deleteSelect } = require('../controller/homeController');
 
 // index page 
 router.get('/home', getAll);
@@ -16,9 +15,9 @@ router.get('/home/search', searchDrinks);
 router.get("/home/delete/:drinkID", deleteDrink);
 
 // Update a Tutorial with id    
-router.post("/home/update", UpdateDrink);
+router.post("/home/update", updateDrink);
 
 // Delete by select
-router.get("/home/deleteSelect", DeleteSelect);
+router.get("/home/deleteSelect", deleteSelect);
 
 module.exports = router;

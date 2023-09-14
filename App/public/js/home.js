@@ -31,6 +31,7 @@ const closeA = document.querySelector('.close')
 const checkboxSelected = document.querySelectorAll('.checkboxSelected')
 const btnDeleteSeclect = document.querySelector('.btnDeleteSeclect')
 
+
 // Validate input elements not null
 function validateInput(inputElement, errorElement, errorMessage, e) {
     if (!inputElement.value.trim()) {
@@ -133,13 +134,17 @@ function myfunction() {
     console.log("checkbox");
     console.log("length", checkboxSelected.length);
     ArraySelected = new Array();
+    let count = 0;
+    console.log(count, 'count')
 
     for (let index = 0; index < checkboxSelected.length; index++) {
         const element = checkboxSelected[index];
+        let lengthOfSelected = checkboxSelected.length - 1;
+        console.log(element.check)
+
         if (element.checked == true) {
-            console.log(element);
-            console.log(element.value)
             ArraySelected.push(element.value)
+            count++;
 
             // Hidden button
             hiddenBtnDelectSelect(false);
@@ -151,12 +156,14 @@ function myfunction() {
                 if (confirmDelete == false) {
                     e.preventDefault()
                     console.log("aaaaa");
-                } else {
-                    const hrefUrl = window.location.href + '/DeleteSelect/?list=' + ArraySelected.join(',');
-                    location.href = hrefUrl;
                 }
-
+                const hrefUrl = window.location.href + '/DeleteSelect/?list=' + ArraySelected.join(',');
+                location.href = hrefUrl;
             };
+        }
+
+        if (index === (checkboxSelected.length - 1) && count === 0) {
+            hiddenBtnDelectSelect(true);
         }
     }
 }

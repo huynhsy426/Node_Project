@@ -1,32 +1,45 @@
-const HomeModel = require('../models/homeModel');
-const connection = require('../models/connection');
 const homeModel = require('../models/homeModel');
 const tagline = "Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.";
 
 const responseData = {
     drinks: [],
-    errorMessage: '',
-    tagline: ''
+    tagline: '',
+    message: {
+        error: '',
+        delete: '',
+        update: '',
+        isEmpty: ''
+    }
 }
+
+const setResponseData = (drinks, tagline, message) => {
+    responseData.drinks = drinks;
+    responseData.tagline = tagline;
+    responseData.message = message;
+};
+
+
 // getAll 
 const getAll = (req, res) => {
     console.log(req.query)
-    HomeModel.getAll(function (error, results) {
+    homeModel.getAll(function (error, results) {
 
         if (req.session.loggedIn) {
             if (error) {
                 return res.render('pages/index', {
-                    errorMessage: error.message
+                    error: error.message
                 });
             }
-            return res.render('pages/index', {
-                ...responseData,
-                drinks: results,
-                tagline: tagline,
-                errorMessage: req.query.errorMessage,
-                deleteMessage: req.query.deleteMessage,
-                updateMessage: req.query.updateMessage
-            });
+            message = {
+                error: req.query.error,
+                delete: req.query.delete,
+                update: req.query.update,
+                isEmpty: '',
+            }
+
+            setResponseData(results, tagline, message)
+
+            return res.render('pages/index', responseData);
         } else {
             res.redirect('/login');
         }
@@ -35,17 +48,17 @@ const getAll = (req, res) => {
 
 // Create and Save a new Drinks
 const createDrink = (req, res) => {
-    const homeModel = new HomeModel({
+    const homeEntity = {
         drinkID: req.body.drinkID,
         name: req.body.name,
         drunkness: req.body.drunkness
-    });
+    };
 
-    HomeModel.create(homeModel,
+    HomeModel.create(homeEntity,
         function (err, result) {
             console.log(result);
             if (err) {
-                return res.redirect('/home?errorMessage=' + err.message);
+                return res.redirect('/home?error=' + err.message);
             }
             return res.redirect('/home');
         })
@@ -56,24 +69,25 @@ const createDrink = (req, res) => {
 // Search drinks by name
 const searchDrinks = (req, res) => {
     console.log(req.query)
-    HomeModel.searchDrinks(
+    homeModel.searchDrinks(
         req.query.searchInput,
         (err, homeEntity) => {
             if (err) {
-                return res.redirect('/home?errorMessage=' + err.message);
+                return res.redirect('/home?error=' + err.message);
             }
 
             if (homeEntity.length > 0) {
                 return res.render('pages/index', {
                     drinks: homeEntity,
                     tagline: tagline,
-                    errorMessage: ''
                 });
             } else {
                 return res.render('pages/index', {
                     drinks: homeEntity,
                     tagline: tagline,
-                    errorMessage: 'empty drinks'
+                    message: {
+                        isEmpty: 'empty drinks'
+                    }
                 });
             }
         }
@@ -89,55 +103,48 @@ const deleteDrink = (req, res) => {
         (err, result) => {
             console.log("deleteDrinkaaaa")
             if (err) {
-                return res.redirect('/home?errorMessage=' + err.message);
+                return res.redirect('/home?error=' + err.message);
             }
-            // console.log(result);
-            return res.redirect('/home?deleteMessage=' + "Delete successfully");
+            return res.redirect('/home?delete=' + "Delete successfully");
         }
     )
 };
 
 
 // Update drink by id
-const UpdateDrink = (req, res) => {
-    console.log('updateDrink')
-    console.log(req.body, 'saldkejndijn');
+const updateDrink = (req, res) => {
 
-    const homeModel = new HomeModel({
+    const homeEntity = {
         drinkID: req.body.drinkIdUpdate,
         name: req.body.nameUpdate,
         drunkness: req.body.drunknessUpdate
-    });
+    };
 
-    HomeModel.updateDrink(
-        homeModel,
+    homeModel.updateDrink(
+        homeEntity,
         (err, result) => {
             if (err) {
-                return res.redirect('/home?errorMessage=' + err.message);
+                return res.redirect('/home?error=' + err.message);
             }
             console.log(result);
-            return res.redirect('/home?updateMessage=' + "Update successful");
+            return res.redirect('/home?update=' + "Update successful");
         }
     )
 };
 
 
-const DeleteSelect = (req, res) => {
-    console.log(req.query, "query")
-    console.log(req.query.list)
-    console.log(Array.isArray(req.query.list.split(",")))
-    console.log(req.query.list.split(","))
+const deleteSelect = (req, res) => {
 
     const listSelect = req.query.list.split(",")
 
-    HomeModel.DeleteSelect(
+    homeModel.deleteSelect(
         listSelect,
         (err, result) => {
             if (err) {
-                return res.redirect('/home?errorMessage=' + err.message);
+                return res.redirect('/home?error=' + err.message);
             }
             console.log(result);
-            return res.redirect('/home?deleteMessage=' + "Delete successfully");
+            return res.redirect('/home?delete=' + "Delete successfully");
         }
     )
 };
@@ -148,6 +155,6 @@ module.exports = {
     createDrink,
     searchDrinks,
     deleteDrink,
-    UpdateDrink,
-    DeleteSelect
+    updateDrink,
+    deleteSelect
 }
