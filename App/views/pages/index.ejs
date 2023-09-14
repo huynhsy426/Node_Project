@@ -72,13 +72,9 @@
                         </span>
 
                         <div class="btn-function">
-                            <!-- ?
-                            <button type="button" class="btn-edit">Save</button>
-                            : -->
-                            <a href="#popup1">
-                                <button type=" button" class="btn-edit">Edit</button>
-                            </a>
-
+                            <button type="submit" class="btn-edit"
+                                onclick="sendDataToPopUp('<%= drink.drinkID %>','<%= drink.name %>','<%= drink.drunkness %>')">Edit</button>
+                            <!-- <button type="button" class="btn-edit">Edit</button> -->
                             <a href="/home/delete/<%=drink.drinkID %>">
                                 <button type="button" class="btn-delete">Delete</button>
                             </a>
@@ -93,7 +89,7 @@
         <div id="popup1" class="overlay">
             <div class="popup">
                 <h2 style="text-align: center;">Update Drink</h2>
-                <a class="close" href="#">&times;</a>
+                <a class="close" href="">&times;</a>
                 <div class="content">
                     <form method="post" action="/home/update" class="d-flex formUpdate">
                         <h4 style="color: red;"></h4>
@@ -104,7 +100,7 @@
                         </div>
                         <div class="w-50">
                             <input type="text" class="form-control-5 nameUpdate" id="nameUpdate" name="nameUpdate"
-                                placeholder="name">
+                                placeholder="name" value="">
                             <p class="errNameUpdate" style="color: red; font-size: small;"></p>
                         </div>
                         <div class="w-50">

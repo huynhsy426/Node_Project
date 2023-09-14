@@ -25,6 +25,8 @@ const errIdUpdate = document.querySelector('.errIdUpdate')
 const errNameUpdate = document.querySelector('.errNameUpdate')
 const errDrunknessUpdate = document.querySelector('.errDrunknessUpdate')
 
+const closeA = document.querySelector('.close')
+
 // Validate input elements not null
 function validateInput(inputElement, errorElement, errorMessage, e) {
     if (!inputElement.value.trim()) {
@@ -58,6 +60,7 @@ searchBtn.onclick = (e) => {
     validateInput(input, err, 'Please input your search', e)
 }
 
+
 // Check validate after register
 addBtn.onclick = (e) => {
     validateInput(inputID, errID, 'Please input your ID', e);
@@ -82,18 +85,41 @@ backBtn.onclick = (e) => {
 }
 
 
-for (let i = 0; i < btnEdit.length; i++) {
+function sendDataToPopUp(id, name, drunkness) {
+    console.log(id, name, drunkness);
+    console.log(window.location.href);
 
-    btnEdit[i].onclick = (e) => {
-        e.preventDefault();
-        console.log("i", i);
-    };
-
+    drinkIDUpdate.value = id;
+    nameUpdate.value = name;
+    drunknessUpdate.value = drunkness;
+    console.log(document.getElementById('popup1'));
+    document.getElementById('popup1').style.visibility = 'visible'
+    // window.location.href = window.location.href + "#popup1";
 }
 
 
 updateBtn.onclick = (e) => {
-    // e.preventDefault();
+    let confirmUpdate = confirm("Confirm update?")
+    console.log(confirmUpdate)
+    if (confirmUpdate == false) {
+        e.preventDefault()
+        console.log("aaaaa");
+        document.getElementById('popup1').style.visibility = 'hidden'
+    }
+}
 
-    console.log("i", 1);
+
+closeA.onclick = (e) => {
+    e.preventDefault();
+    document.getElementById('popup1').style.visibility = 'hidden'
+}
+
+
+// Delete button
+btnDelete.onclick = (e) => {
+    let confirmDelete = confirm("Confirm Delete?")
+    if (confirmDelete == false) {
+        e.preventDefault()
+        console.log("aaaaa");
+    }
 }
