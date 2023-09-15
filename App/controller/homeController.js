@@ -53,7 +53,7 @@ const createDrink = (req, res) => {
         drunkness: req.body.drunkness
     };
 
-    HomeModel.create(homeEntity,
+    homeModel.create(homeEntity,
         function (err, result) {
             console.log(result);
             if (err) {
