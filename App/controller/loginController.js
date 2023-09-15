@@ -26,12 +26,11 @@ const postLoginPage = (req, res) => {
         session.password = password;
         session.loggedIn = true;
         res.redirect(`/home`);
-    } else {
-        console.log("no")
-
-        const errMessage = "Wrong account";
-        res.render('pages/login', { errMessage });
     }
+    console.log("no")
+
+    const errMessage = "Wrong account";
+    res.render('pages/login', { errMessage });
 };
 
 module.exports = {

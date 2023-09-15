@@ -16,9 +16,9 @@ CREATE TABLE users(
 -- drop table drinks
 
 INSERT INTO drinks values
-('DR001', 'Bloody Mary', 3),
+('DR000', 'Bloody Mary', 3),
 ('DR002','Martini', 5),
-('DR003','Scotch', 10)
+('DR001','Scotch', 10)
 ;
 
 
@@ -33,3 +33,5 @@ INSERT INTO users values
 select * from drinks;
 
 DELETE FROM Drinks WHERE drinkID = 'DR212';
+
+DELETE FROM Drinks WHERE drinkID IN ('DR001','DR002');

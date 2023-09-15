@@ -38,9 +38,7 @@ function validateInput(inputElement, errorElement, errorMessage, e) {
         e.preventDefault();
         errorElement.innerHTML = errorMessage;
     }
-    else {
-        errorElement.innerHTML = '';
-    }
+    errorElement.innerHTML = '';
 }
 
 

@@ -40,9 +40,8 @@ const getAll = (req, res) => {
             setResponseData(results, tagline, message)
 
             return res.render('pages/index', responseData);
-        } else {
-            res.redirect('/login');
         }
+        res.redirect('/login');
     });
 };
 
